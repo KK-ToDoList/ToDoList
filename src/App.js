@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import './App.css';
 import axios from "axios";
+import Input from "./components/input";
+import Todo from "./components/todo";
 
 function App() {
 
@@ -93,28 +95,14 @@ function App() {
     return (
     <div className="App">  
       <h1>TODO LIST</h1>
-      <form onSubmit={insertTodo}>
-        <label>
-        Todo &nbsp;
-        <input type = "text" required = {true} value = {input} onChange = {changeText}/>
-        </label>  
-        <input type = "submit" value = "Create"/> {/*Create BTN*/}         
-      </form>
+      <Input handleSubmit = {insertTodo} input={input} handleChange={changeText}/> 
 
       {
         todos
         ? todos.map((todo) => {
           return(
-            <div className="todo" key={todo.id}>
-              <h3>
-                <label
-                  className= {todo.completed ? "completed": null}       //completed가 0이 아닐때 
-                  onClick={() =>updateTodo(todo.id)}>
-                  {todo.todoName}         {/* 각 todo의 이름을 출력 */}
-                </label>
-                <label onClick={() => deleteTodo(todo.id)}>&nbsp;&nbsp;&nbsp;❌</label>
-              </h3>
-            </div>
+          <Todo key={todo.id} todo={todo} handleClick={() => updateTodo(todo.id)} handleDelete={() => deleteTodo(todo.id)} />
+
           )
         })
         :null
